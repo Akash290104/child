@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 8
-
-void FCFS(int arr[], int head) {
+void FCFS(int arr[], int size, int head) {
     int seek_count = 0;
     int distance, cur_track;
 
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < size; i++) {
         cur_track = arr[i];
         distance = abs(cur_track - head);
         seek_count += distance;
@@ -17,16 +15,27 @@ void FCFS(int arr[], int head) {
     printf("Total number of seek operations = %d\n", seek_count);
     printf("Seek Sequence is:\n");
 
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < size; i++) {
         printf("%d\n", arr[i]);
     }
 }
 
 int main() {
-    int arr[SIZE] = {176, 79, 34, 60, 92, 11, 41, 114};
-    int head = 50;
+    int size;
+    printf("Enter the number of disk requests: ");
+    scanf("%d", &size);
 
-    FCFS(arr, head);
+    int arr[size];
+    printf("Enter the disk requests:\n");
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int head;
+    printf("Enter the initial head position: ");
+    scanf("%d", &head);
+
+    FCFS(arr, size, head);
 
     return 0;
 }
