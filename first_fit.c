@@ -5,12 +5,12 @@ void first_fit(int memory_blocks[], int block_size, int processes[], int process
     int fragmentation = 0;
 
     for (int i = 0; i < process_size; i++) {
-        allocation[i] = -1; // Initialize all allocations to -1
+        allocation[i] = -1; 
         for (int j = 0; j < block_size; j++) {
             if (memory_blocks[j] >= processes[i]) {
-                allocation[i] = j; // Allocate block j to process i
-                fragmentation += (memory_blocks[j] - processes[i]); // Calculate fragmentation
-                memory_blocks[j] -= processes[i]; // Reduce available memory
+                allocation[i] = j; 
+                fragmentation += (memory_blocks[j] - processes[i]); 
+                memory_blocks[j] -= processes[i]; 
                 break;
             }
         }
