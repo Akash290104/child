@@ -1,73 +1,87 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-int size = 8;
-int disk_size = 200;
+#define DISK_SIZE 200
+#define SIZE 8
 
-void SCAN(int arr[], int head, string direction){
+void SCAN(int arr[], int size, int head, char direction[]) {
     int seek_count = 0;
     int distance, cur_track;
-    vector<int> left, right;
-    vector<int> seek_sequence;
+    int left[size + 1], right[size + 1];
+    int left_count = 0, right_count = 0;
+    int seek_sequence[size + 1];
+    int seek_index = 0;
 
-    if (direction == "left")
-        left.push_back(0);
-    else if (direction == "right")
-        right.push_back(disk_size - 1);
+    if (strcmp(direction, "left") == 0)
+        left[left_count++] = 0;
+    else if (strcmp(direction, "right") == 0)
+        right[right_count++] = DISK_SIZE - 1;
 
     for (int i = 0; i < size; i++) {
         if (arr[i] < head)
-            left.push_back(arr[i]);
+            left[left_count++] = arr[i];
         if (arr[i] > head)
-            right.push_back(arr[i]);
+            right[right_count++] = arr[i];
     }
 
-    std::sort(left.begin(), left.end());
-    std::sort(right.begin(), right.end());
+    for (int i = 0; i < left_count - 1; i++) {
+        for (int j = 0; j < left_count - i - 1; j++) {
+            if (left[j] > left[j + 1]) {
+                int temp = left[j];
+                left[j] = left[j + 1];
+                left[j + 1] = temp;
+            }
+        }
+    }
+
+    for (int i = 0; i < right_count - 1; i++) {
+        for (int j = 0; j < right_count - i - 1; j++) {
+            if (right[j] > right[j + 1]) {
+                int temp = right[j];
+                right[j] = right[j + 1];
+                right[j + 1] = temp;
+            }
+        }
+    }
 
     int run = 2;
     while (run--) {
-        if (direction == "left") {
-            for (int i = left.size() - 1; i >= 0; i--) {
+        if (strcmp(direction, "left") == 0) {
+            for (int i = left_count - 1; i >= 0; i--) {
                 cur_track = left[i];
-                seek_sequence.push_back(cur_track);
+                seek_sequence[seek_index++] = cur_track;
                 distance = abs(cur_track - head);
                 seek_count += distance;
                 head = cur_track;
             }
-            direction = "right";
-        }
-        else if (direction == "right") {
-            for (int i = 0; i < right.size(); i++) {
+            strcpy(direction, "right");
+        } else if (strcmp(direction, "right") == 0) {
+            for (int i = 0; i < right_count; i++) {
                 cur_track = right[i];
-                seek_sequence.push_back(cur_track);
+                seek_sequence[seek_index++] = cur_track;
                 distance = abs(cur_track - head);
                 seek_count += distance;
                 head = cur_track;
             }
-            direction = "left";
+            strcpy(direction, "left");
         }
     }
 
-    cout << "Total number of seek operations = "
-         << seek_count << endl;
+    printf("Total number of seek operations = %d\n", seek_count);
+    printf("Seek Sequence is:\n");
 
-    cout << "Seek Sequence is" << endl;
-
-    for (int i = 0; i < seek_sequence.size(); i++) {
-        cout << seek_sequence[i] << endl;
+    for (int i = 0; i < seek_index; i++) {
+        printf("%d\n", seek_sequence[i]);
     }
 }
 
-int main(){
-
-    // request array
-    int arr[size] = { 176, 79, 34, 60,
-                      92, 11, 41, 114 };
+int main() {
+    int arr[SIZE] = {176, 79, 34, 60, 92, 11, 41, 114};
     int head = 50;
-    string direction = "left";
+    char direction[] = "left";
 
-    SCAN(arr, head, direction);
+    SCAN(arr, SIZE, head, direction);
 
     return 0;
 }
