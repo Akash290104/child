@@ -6,7 +6,7 @@ void best_fit(int memory_blocks[], int block_size, int processes[], int process_
     int fragmentation = 0;
 
     for (int i = 0; i < process_size; i++) {
-        allocation[i] = -1; // Initialize all allocations to -1
+        allocation[i] = -1; 
         int best_idx = -1;
         int best_size = INT_MAX;
 
@@ -17,9 +17,9 @@ void best_fit(int memory_blocks[], int block_size, int processes[], int process_
             }
         }
         if (best_idx != -1) {
-            allocation[i] = best_idx; // Allocate best block to process
-            fragmentation += (memory_blocks[best_idx] - processes[i]); // Calculate fragmentation
-            memory_blocks[best_idx] -= processes[i]; // Reduce available memory
+            allocation[i] = best_idx; 
+            fragmentation += (memory_blocks[best_idx] - processes[i]); 
+            memory_blocks[best_idx] -= processes[i];
         }
     }
 
